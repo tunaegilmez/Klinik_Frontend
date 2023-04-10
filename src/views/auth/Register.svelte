@@ -1,4 +1,28 @@
 <script>
+  import RestService from "../../services/rest";
+  import { navigate } from "svelte-navigator";
+  // import { user } from "../../services/store";
+
+  let fullNameFromUnput;
+  let emailFromInput;
+  let password;
+
+  const register = async () => {
+    let response = await RestService.register(
+      fullNameFromUnput,
+      emailFromInput,
+      password
+    );
+    if (response && response.status) {
+      console.log("REGISTER BAŞARILI");
+      navigate("/login");
+    } else {
+      console.log("REGISTER ERROR", response);
+      // fullNameFromUnput = "";
+      // emailFromInput = "";
+      // password = "";
+    }
+  };
 </script>
 
 <main>
@@ -13,9 +37,21 @@
         Full Name
       </h3>
       <input
-        class="text-xl p-2 border rounded-md  border-slate-500"
+        class="text-xl p-2 border rounded-md border-slate-500"
         type="text"
         placeholder="User Name"
+        bind:value={fullNameFromUnput}
+      />
+    </div>
+    <div>
+      <h3 class="mt-[50px] ml-14 mb-2 text-xl flex justify-start opacity-60">
+        E-Mail
+      </h3>
+      <input
+        class="text-xl p-2 border rounded-md border-slate-500"
+        type="text"
+        placeholder="E-Mail"
+        bind:value={emailFromInput}
       />
     </div>
     <div>
@@ -23,30 +59,18 @@
         Create Password
       </h3>
       <input
-        class="text-xl p-2 border rounded-md border-slate-500 focus:blur-sm "
+        class="text-xl p-2 border rounded-md border-slate-500 focus:blur-sm"
         type="password"
         placeholder="Password"
-      />
-    </div>
-    <div>
-      <h3 class="mt-[50px] ml-14 mb-2 text-xl flex justify-start opacity-60">
-        Create Password
-      </h3>
-      <input
-        class="text-xl p-2 border rounded-md border-slate-500 focus:blur-sm "
-        type="password"
-        placeholder="Password"
+        bind:value={password}
       />
     </div>
     <div>
       <button
         class="self-end p-2 pr-5 pl-5 hover:bg-gray-300 bg-gray-400 rounded-md mb-[30px] mt-[50px]"
-        >Register</button
+        on:click|preventDefault={register}>Register</button
       >
     </div>
-    <!-- <a class="mb-[50px] hover:text-red-800" href="/forgetPassword"
-      >Forget Password</a
-    > -->
   </div>
 </main>
 

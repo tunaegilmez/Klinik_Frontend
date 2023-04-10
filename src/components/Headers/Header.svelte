@@ -1,4 +1,5 @@
 <script>
+  // @ts-nocheck
   import { user } from "$services/store.js";
 </script>
 
@@ -6,7 +7,7 @@
   <!-- <img src="vagus.jpeg" alt="" width="100px" /> -->
   <!-- svelte-ignore a11y-missing-attribute -->
   <h1 class="flex">
-    <img class="mr-2" src="assets/images/vagus.jpeg" width="60px" />Vagus Klinik
+    <img class="mask mask-circle" width="60px" src="assets/images/vagus.jpeg" />
   </h1>
 
   <div class="icons nav">
@@ -23,6 +24,7 @@
         class="bi bi-person-circle p-3 border-b-2 border-red-800 border-opacity-0 hover:border-opacity-100 hover:text-red-800 duration-200"
       />
     </span>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <span on:click={() => user.set(null)} class="cursor-pointer"> Çıkış </span>
   </div>
 </header>
@@ -40,7 +42,7 @@
     margin: 0;
     margin-left: 20px;
     text-align: left;
-    color: rgb(213, 185, 26);
+    color: black;
     font: bold;
     font-size: 40px;
   }
