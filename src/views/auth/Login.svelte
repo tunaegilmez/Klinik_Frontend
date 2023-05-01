@@ -1,7 +1,7 @@
 <script>
   import { navigate } from "svelte-navigator";
   import RestService from "../../services/rest";
-  import { user } from "../../services/store";
+  import { user } from "../../services/store.js";
 
   let emailFromInput;
   let password;

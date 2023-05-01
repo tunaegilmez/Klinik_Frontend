@@ -2,7 +2,10 @@ import http from "./http";
 import ENV from "../env.js";
 
 const login = (email, password) => {
-  return http.post(`${ENV.API_URL}/user/login`, { email, password });
+  return http.post(`${ENV.API_URL}/user/login`, {
+    email,
+    password,
+  });
 };
 
 const register = (fullName, email, password) => {
@@ -26,7 +29,6 @@ const getUsers = (limit, skip) => {
 };
 
 const updateUserActive = userId => {
-  console.log("updateUserActive service", userId);
   return http.patch(`${ENV.API_URL}/user/updateUserActive/${userId}`, {});
 };
 
