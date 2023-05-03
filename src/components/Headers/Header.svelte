@@ -1,62 +1,50 @@
 <script>
-  // @ts-nocheck
+  // @ts-ignore
   import { user } from "$services/store.js";
+
+  import { navigate } from "svelte-navigator";
+
+  function goToProfile() {
+    navigate("/profile");
+  }
 </script>
 
-<header>
-  <!-- <img src="vagus.jpeg" alt="" width="100px" /> -->
-  <!-- svelte-ignore a11y-missing-attribute -->
-  <h1 class="flex">
-    <img class="mask mask-circle" width="60px" src="assets/images/vagus.jpeg" />
+<header
+  class="bg-gray-100 px-4 py-3 flex items-center justify-between shadow-md"
+>
+  <h1 class="text-2xl font-bold">
+    <!-- svelte-ignore a11y-img-redundant-alt -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <img
+      on:click={() => navigate("/")}
+      class="h-12 w-12 rounded-full cursor-pointer"
+      src="assets/images/vagus.jpeg"
+      alt="Profile Picture"
+    />
   </h1>
 
-  <div class="icons nav">
-    <span class="add-diary">
-      <a href="/newDiary">
-        <i
-          class="bi bi-calendar2-week p-3 border-b-2 border-red-800 border-opacity-0 hover:border-opacity-100 hover:text-red-800 duration-200"
-        /></a
-      >
-    </span>
+  <div class="flex items-center space-x-4">
+    <a
+      href="/calendar"
+      class="p-3 rounded-full hover:bg-red-800 hover:bg-opacity-10 transition duration-300"
+    >
+      <i class="bi bi-calendar2-week text-xl" />
+    </a>
+
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <span class="cursor-pointer">
-      <i
-        class="bi bi-person-circle p-3 border-b-2 border-red-800 border-opacity-0 hover:border-opacity-100 hover:text-red-800 duration-200"
-      />
+    <span
+      class="p-3 rounded-full hover:bg-red-800 hover:bg-opacity-10 transition duration-300 cursor-pointer"
+      on:click={goToProfile}
+    >
+      <i class="bi bi-person-circle text-xl" />
     </span>
+
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <span on:click={() => user.set(null)} class="cursor-pointer"> Çıkış </span>
+    <span
+      class="p-3 rounded-full hover:bg-red-800 hover:bg-opacity-10 transition duration-300 cursor-pointer"
+      on:click={() => user.set(null)}
+    >
+      Çıkış
+    </span>
   </div>
 </header>
-
-<style>
-  header {
-    background: #f7f7f7;
-    margin: 8px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    box-shadow: 0px 1px 15px;
-  }
-  h1 {
-    margin: 0;
-    margin-left: 20px;
-    text-align: left;
-    color: black;
-    font: bold;
-    font-size: 40px;
-  }
-  i {
-    font-size: 30px;
-  }
-  .add-diary {
-    margin-right: 25px;
-  }
-  .icons {
-    text-align: end;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
-</style>

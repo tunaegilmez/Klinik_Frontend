@@ -24,7 +24,6 @@ const getUsers = (limit, skip) => {
   if (skip) {
     data.skip = skip;
   }
-  console.log(data, "Rest.js Data");
   return http.get(`${ENV.API_URL}/user`, { ...data });
 };
 
@@ -32,9 +31,14 @@ const updateUserActive = userId => {
   return http.patch(`${ENV.API_URL}/user/updateUserActive/${userId}`, {});
 };
 
+const checkType = () => {
+  return http.get(`${ENV.API_URL}/user/checkType`);
+};
+
 export default {
   login,
   register,
   getUsers,
   updateUserActive,
+  checkType,
 };
