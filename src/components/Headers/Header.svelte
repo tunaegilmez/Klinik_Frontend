@@ -10,7 +10,7 @@
 </script>
 
 <header
-  class="bg-gray-100 px-4 py-3 flex items-center justify-between shadow-md"
+  class="bg-gray-200 px-4 py-3 flex items-center justify-between shadow-md"
 >
   <h1 class="text-2xl font-bold">
     <!-- svelte-ignore a11y-img-redundant-alt -->

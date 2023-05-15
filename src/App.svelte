@@ -14,6 +14,9 @@
   // @ts-ignore
   import Calendar from "./views/Admin/Calendar.svelte";
 
+  import Modal from "svelte-simple-modal";
+  import { modal } from "../src/services/store.js";
+
   let userAuthSubscription;
 
   onMount(async () => {
@@ -30,6 +33,8 @@
 </script>
 
 <Header />
+
+<Modal show={$modal} />
 
 <Router primary={false}>
   <Route path="" component={Users} />

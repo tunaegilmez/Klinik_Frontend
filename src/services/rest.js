@@ -35,10 +35,34 @@ const checkType = () => {
   return http.get(`${ENV.API_URL}/user/checkType`);
 };
 
+const getEvents = () => {
+  return http.get(`${ENV.API_URL}/event`);
+};
+
+const addEvent = data => {
+  return http.post(`${ENV.API_URL}/event`, data);
+};
+
+const deleteEvent = eventId => {
+  return http.post(`${ENV.API_URL}/event/${eventId}`, {});
+};
+
+const updateEvent = (eventId, data) => {
+  return http.put(`${ENV.API_URL}/event/${eventId}`, {
+    event: data,
+  });
+};
+
 export default {
   login,
   register,
   getUsers,
   updateUserActive,
   checkType,
+
+  //Event
+  getEvents,
+  addEvent,
+  deleteEvent,
+  updateEvent,
 };

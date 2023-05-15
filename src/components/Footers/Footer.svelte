@@ -1,5 +1,5 @@
 <footer
-  class="footer footer-center p-4 md:p-10 bg-rose-400 text-primary-content"
+  class="footer footer-center p-4 md:p-10 bg-stone-500 text-primary-content"
 >
   <div class="text-center md:text-left">
     <svg

@@ -11,6 +11,8 @@ user.subscribe(value => {
   localStorage.setItem("user", JSON.stringify(value));
 });
 
+export const modal = writable(null);
+
 export default {
   users,
 };

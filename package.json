@@ -13,15 +13,19 @@
     "@event-calendar/day-grid": "^0.19.0",
     "@event-calendar/time-grid": "^0.19.0",
     "@sveltejs/vite-plugin-svelte": "^2.0.3",
+    "simple-svelte-autocomplete": "^2.5.2",
     "svelte": "^3.55.1",
     "vite": "^4.2.0"
   },
   "dependencies": {
+    "@event-calendar/interaction": "^0.19.0",
     "autoprefixer": "^10.4.14",
     "daisyui": "^2.51.5",
+    "moment": "^2.29.4",
     "postcss": "^8.4.21",
     "svelte-navigator": "^3.2.2",
     "svelte-routing": "^1.6.0",
+    "svelte-simple-modal": "^1.5.2",
     "tailwindcss": "^3.3.1"
   }
 }
