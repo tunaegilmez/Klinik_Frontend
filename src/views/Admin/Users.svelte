@@ -44,6 +44,20 @@
     }
   };
 
+  const updateUserPayment = async userId => {
+    try {
+      let response = await RestService.updateUserPayment(userId);
+
+      if (response["status"]) {
+        getUsers();
+      } else {
+        console.log(response.message);
+      }
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
   const handlePageClick = page => {
     currentPage = page;
     skip = (currentPage - 1) * limit;
@@ -92,6 +106,12 @@
                     </th>
                     <th
                       scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Ödedi mi?
+                    </th>
+                    <th
+                      scope="col"
                       class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Actions
@@ -118,6 +138,11 @@
                         {user.isActive}
                       </td>
                       <td
+                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                      >
+                        {user.isPaid}
+                      </td>
+                      <td
                         class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
                       >
                         <button
@@ -125,6 +150,12 @@
                           on:click={() => updateUserActive(user?._id)}
                         >
                           Üye Yap
+                        </button>
+                        <button
+                          class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          on:click={() => updateUserPayment(user?._id)}
+                        >
+                          Ödeme Yaptı
                         </button>
                       </td>
                     </tr>

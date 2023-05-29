@@ -31,6 +31,10 @@ const updateUserActive = userId => {
   return http.patch(`${ENV.API_URL}/user/updateUserActive/${userId}`, {});
 };
 
+const updateUserPayment = userId => {
+  return http.patch(`${ENV.API_URL}/user/updateUserPayment/${userId}`, {});
+};
+
 const checkType = () => {
   return http.get(`${ENV.API_URL}/user/checkType`);
 };
@@ -58,6 +62,7 @@ export default {
   register,
   getUsers,
   updateUserActive,
+  updateUserPayment,
   checkType,
 
   //Event
