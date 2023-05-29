@@ -40,24 +40,29 @@
   let plugins = [TimeGrid, DayGrid, Interaction];
 
   const getEvents = async () => {
-    let response = await RestService.getEvents();
-
-    events = response["events"];
+    try {
+      let response = await RestService.getEvents();
+      events = response["events"];
+    } catch (err) {
+      throw Error(err);
+    }
   };
 
   const updateEvent = async info => {
-    let updateEventResponse = await RestService.updateEvent(info?.event?.id, {
-      ...info?.event?.extendedProps,
-      startDate: info.event.start,
-      endDate: info.event.end,
-    });
+    try {
+      let updateEventResponse = await RestService.updateEvent(info?.event?.id, {
+        ...info?.event?.extendedProps,
+        startDate: info.event.start,
+        endDate: info.event.end,
+      });
 
-    console.log("RESPONSE", updateEventResponse);
-
-    if (updateEventResponse["status"]) {
-      syncData();
-    } else {
-      console.log("updateEvent ERROR", updateEventResponse.message);
+      if (updateEventResponse["status"]) {
+        syncData();
+      } else {
+        console.log("updateEvent ERROR", updateEventResponse.message);
+      }
+    } catch (error) {
+      throw Error(error);
     }
   };
 
@@ -80,23 +85,26 @@
       startDate = moment(info?.start);
       endDate = moment(info.end);
       addEventApprove();
-      console.log("selected start: ", info.start, "end: ", info.end);
-      console.log(
-        "startDate: ",
-        startDate.toDate().toISOString(),
-        "endDate",
-        endDate.toDate().toISOString()
-      );
     },
     editable: true,
+    eventContent: info => {
+      return info.event.display === "auto"
+        ? {
+            html: `
+            <div class="ec-event-title"> ${info.event.title}</div>
+            <i class="bi bi-trash"></i>`,
+          }
+        : "";
+    },
     eventClick: info => {
-      // console.log("eventClick---", info.event);
-    },
-    eventDragStart: info => {
-      console.log("Başladı-----", info);
-    },
-    eventResizeStart: info => {
-      // console.log("qwer", info.event);
+      console.log("eventClick---", info);
+
+      if (info.event.display === "auto") {
+        let deleteIcon = info.el.querySelector("i");
+        if (info.jsEvent.target === deleteIcon) {
+          deleteEvent(info);
+        }
+      }
     },
     eventDrop: info => {
       updateEvent(info);
@@ -117,6 +125,18 @@
     },
     dayMaxEvents: true,
     selectable: true,
+  };
+
+  const deleteEvent = async info => {
+    console.log(info);
+    try {
+      let deleteEventResponse = await RestService.deleteEvent(info?.event?.id);
+      if (deleteEventResponse["status"]) {
+        syncData();
+      }
+    } catch (error) {
+      throw Error(error);
+    }
   };
 
   const addEvent = async () => {
@@ -157,7 +177,6 @@
 </script>
 
 <div class="m-10 sm:m-0 sm:p-10 bg-gray-50 min-h-screen">
-  <h1 class="flex justify-center text-2xl mb-5">CALENDAR</h1>
   {#if options?.events}
     <Calendar class="w-full" {plugins} {options} />
   {/if}

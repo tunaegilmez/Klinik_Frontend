@@ -4,9 +4,12 @@
   import { navigate } from "svelte-navigator";
 
   const checkType = async () => {
-    let res = await RestService.checkType();
-    console.log("resRES----", res);
-    if (res.type == "user") navigate("/calendar");
+    try {
+      let res = await RestService.checkType();
+      if (res.type == "user") navigate("/calendar");
+    } catch (error) {
+      throw Error(error);
+    }
   };
 
   let users;
@@ -17,20 +20,27 @@
   let totalPages = 0;
 
   const getUsers = async () => {
-    let response = await RestService.getUsers(limit, skip);
-    users = response["users"];
-    totalDataCount = response["count"];
-    totalPages = Math.ceil(totalDataCount / limit);
+    try {
+      let response = await RestService.getUsers(limit, skip);
+      users = response["users"];
+      totalDataCount = response["count"];
+      totalPages = Math.ceil(totalDataCount / limit);
+    } catch (error) {
+      throw Error(error);
+    }
   };
 
   const updateUserActive = async userId => {
-    let response = await RestService.updateUserActive(userId);
+    try {
+      let response = await RestService.updateUserActive(userId);
 
-    if (response["status"]) {
-      getUsers();
-    } else {
-      console.log(response.message);
-      throw Error(response.message);
+      if (response["status"]) {
+        getUsers();
+      } else {
+        console.log(response.message);
+      }
+    } catch (error) {
+      throw Error(error);
     }
   };
 

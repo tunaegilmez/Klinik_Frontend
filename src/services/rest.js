@@ -44,7 +44,7 @@ const addEvent = data => {
 };
 
 const deleteEvent = eventId => {
-  return http.post(`${ENV.API_URL}/event/${eventId}`, {});
+  return http.delete(`${ENV.API_URL}/event/${eventId}`, {});
 };
 
 const updateEvent = (eventId, data) => {
