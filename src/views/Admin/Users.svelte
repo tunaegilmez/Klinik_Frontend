@@ -25,13 +25,12 @@
 
   const updateUserActive = async userId => {
     let response = await RestService.updateUserActive(userId);
-    console.log("RESPONSE______-----", response);
-    console.log(response["status"]);
+
     if (response["status"]) {
-      console.log(response, "success");
       getUsers();
     } else {
       console.log(response.message);
+      throw Error(response.message);
     }
   };
 

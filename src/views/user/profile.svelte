@@ -31,6 +31,8 @@
       <h1 class="text-xl font-bold">{fullName}</h1>
       <p class="text-gray-500">{age} yaşında, {gender}</p>
     </div>
+
+    <div class="ml-10 bg-red-300 p-2">ödenmedi</div>
   </div>
   <div>
     <Card>
@@ -48,8 +50,6 @@
         <p class="">
           Paket türü : {paketTur ? paketTur : "Şuanda bir paket yok"}
         </p>
-
-        <p class="">Paket ödeneği : {isPaid ? "Ödendi" : "Ödenmedi"}</p>
       </div>
       <!-- </span> -->
     </Card>

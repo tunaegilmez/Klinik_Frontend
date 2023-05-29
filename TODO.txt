@@ -1,3 +1,5 @@
 1- Haftalık programı kişi profilinde görülücek.
 2- paket türü de profilde gösterilicek ve ödenip ödenmediği bilgisi alınıcak
 3- kalan seans sayısınıda profilde göster.
+
+8 ve 12 seanslık paketler var

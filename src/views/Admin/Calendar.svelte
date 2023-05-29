@@ -7,7 +7,6 @@
   import Interaction from "@event-calendar/interaction";
   import "@event-calendar/core/index.css";
   import moment from "moment";
-  // import { navigate } from "svelte-navigator";
 
   import { modal, user } from "$services/store.js";
   import { bind } from "svelte-simple-modal";
@@ -17,7 +16,6 @@
   let title;
   let selectedUser;
 
-  // import Modal from "svelte-simple-modal";
   const addEventApprove = () => {
     modal.set(
       bind(Alert, {
@@ -47,6 +45,22 @@
     events = response["events"];
   };
 
+  const updateEvent = async info => {
+    let updateEventResponse = await RestService.updateEvent(info?.event?.id, {
+      ...info?.event?.extendedProps,
+      startDate: info.event.start,
+      endDate: info.event.end,
+    });
+
+    console.log("RESPONSE", updateEventResponse);
+
+    if (updateEventResponse["status"]) {
+      syncData();
+    } else {
+      console.log("updateEvent ERROR", updateEventResponse.message);
+    }
+  };
+
   let options = {
     locale: "tr-TR",
     view: "timeGridWeek",
@@ -54,7 +68,6 @@
     slotMaxTime: "22.00",
     height: "825px",
     allDaySlot: false,
-    // firstDay: 1,
     hiddenDays: [0],
     eventLongPressDelay: 1000,
     headerToolbar: {
@@ -64,7 +77,6 @@
     },
     pointer: true,
     select: info => {
-      // console.log("SELECTED--", info);
       startDate = moment(info?.start);
       endDate = moment(info.end);
       addEventApprove();
@@ -76,24 +88,21 @@
         endDate.toDate().toISOString()
       );
     },
-    // dateClick: info => {
-    //   //Boş bir saate tıklanınca
-    //   console.log("dateClick----", info);
-    // },
+    editable: true,
     eventClick: info => {
-      //eventin üzerine tıklanınca
-      console.log("eventClick---", info.event);
+      // console.log("eventClick---", info.event);
     },
-    // eventMouseEnter: info => {
-    //   //Eventin üzerine gelince
-    //   console.log("eventMouseEnter---", info.event);
-    // },
-    // eventMouseLeave: info => {
-    //   //Eventin üzerinden ayrılınca
-    //   console.log("eventMouseLeave---", info.event);
-    // },
     eventDragStart: info => {
-      console.log("ASFASDFADS-----", info);
+      console.log("Başladı-----", info);
+    },
+    eventResizeStart: info => {
+      // console.log("qwer", info.event);
+    },
+    eventDrop: info => {
+      updateEvent(info);
+    },
+    eventResize: info => {
+      updateEvent(info);
     },
     nowIndicator: true,
     buttonText: {
@@ -120,7 +129,6 @@
     });
 
     if (response["status"]) {
-      // Code
       syncData();
       console.log("addEvent Success");
     } else {
@@ -137,6 +145,8 @@
           start: moment(event?.startDate).utcOffset("+3").toDate(),
           end: moment(event?.endDate).utcOffset("+3").toDate(),
           title: event?.title,
+          extendedProps: { ...event },
+          id: event?._id,
         };
       }),
     ];
@@ -147,12 +157,7 @@
 </script>
 
 <div class="m-10 sm:m-0 sm:p-10 bg-gray-50 min-h-screen">
-  <button
-    on:click={addEventApprove}
-    class="bg-gray-300 p-3 rounded-md hover:bg-gray-400">Seans oluştur</button
-  >
   <h1 class="flex justify-center text-2xl mb-5">CALENDAR</h1>
-
   {#if options?.events}
     <Calendar class="w-full" {plugins} {options} />
   {/if}
