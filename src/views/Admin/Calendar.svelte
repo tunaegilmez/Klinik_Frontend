@@ -59,6 +59,7 @@
       if (updateEventResponse["status"]) {
         syncData();
       } else {
+        syncData();
         console.log("updateEvent ERROR", updateEventResponse.message);
       }
     } catch (error) {
@@ -69,8 +70,8 @@
   let options = {
     locale: "tr-TR",
     view: "timeGridWeek",
-    slotMinTime: "8.00",
-    slotMaxTime: "22.00",
+    slotMinTime: "9.00",
+    slotMaxTime: "21.00",
     height: "825px",
     allDaySlot: false,
     hiddenDays: [0],
