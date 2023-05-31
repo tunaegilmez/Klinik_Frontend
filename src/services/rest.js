@@ -61,6 +61,12 @@ const updateEvent = (eventId, data) => {
   });
 };
 
+const updatePackageType = (userId, data) => {
+  return http.patch(`${ENV.API_URL}/user/packageType/${userId}`, {
+    packageType: data,
+  });
+};
+
 export default {
   login,
   register,
@@ -69,6 +75,7 @@ export default {
   updateUserActive,
   updateUserPayment,
   checkType,
+  updatePackageType,
 
   //Event
   getEvents,

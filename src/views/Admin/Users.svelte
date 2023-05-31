@@ -18,6 +18,7 @@
   let totalDataCount = 0;
   let currentPage = 1;
   let totalPages = 0;
+  let currentPackageType = "12"; // Test variable
 
   const getUsers = async () => {
     try {
@@ -54,7 +55,25 @@
         console.log(response.message);
       }
     } catch (error) {
-      throw Error(error);
+      throw new Error(error.message);
+    }
+  };
+
+  const updatePackageType = async userId => {
+    try {
+      let packageTypeResponse = await RestService.updatePackageType(
+        userId,
+        currentPackageType
+      );
+
+      if (packageTypeResponse["status"]) {
+        getUsers();
+      } else {
+        console.log(packageTypeResponse.message);
+        throw new Error(packageTypeResponse.message);
+      }
+    } catch (error) {
+      throw new Error(error.message);
     }
   };
 
@@ -112,6 +131,12 @@
                     </th>
                     <th
                       scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Paket
+                    </th>
+                    <th
+                      scope="col"
                       class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Actions
@@ -121,44 +146,59 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                   <!-- row 1 -->
                   {#each users as user, i}
-                    <tr class={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-                      <td
-                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                      >
-                        {i + 1}
-                      </td>
-                      <td
-                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                      >
-                        {user.fullName}
-                      </td>
-                      <td
-                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                      >
-                        {user.isActive}
-                      </td>
-                      <td
-                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                      >
-                        {user.isPaid}
-                      </td>
-                      <td
-                        class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
-                      >
-                        <button
-                          class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          on:click={() => updateUserActive(user?._id)}
+                    {#if user.role != "admin"}
+                      <tr class={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                         >
-                          Üye Yap
-                        </button>
-                        <button
-                          class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          on:click={() => updateUserPayment(user?._id)}
+                          {i + 1}
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                         >
-                          Ödeme Yaptı
-                        </button>
-                      </td>
-                    </tr>
+                          {user.fullName}
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        >
+                          {user.isActive ? "Evet" : "Hayır"}
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        >
+                          {user.isPaid ? "Evet" : "Hayır"}
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        >
+                          {user.packageType == "0"
+                            ? "Paket Bulunmuyor"
+                            : user.packageType + " Haftalık"}
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
+                        >
+                          <button
+                            class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            on:click={() => updateUserActive(user?._id)}
+                          >
+                            Üye Yap
+                          </button>
+                          <button
+                            class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            on:click={() => updateUserPayment(user?._id)}
+                          >
+                            Ödeme Yaptı
+                          </button>
+                          <button
+                            class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            on:click={() => updatePackageType(user?._id)}
+                          >
+                            Paket Seç
+                          </button>
+                        </td>
+                      </tr>
+                    {/if}
                   {/each}
                 </tbody>
               </table>
