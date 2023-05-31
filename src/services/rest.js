@@ -27,6 +27,10 @@ const getUsers = (limit, skip) => {
   return http.get(`${ENV.API_URL}/user`, { ...data });
 };
 
+const getUserById = userId => {
+  return http.get(`${ENV.API_URL}/user/${userId}`);
+};
+
 const updateUserActive = userId => {
   return http.patch(`${ENV.API_URL}/user/updateUserActive/${userId}`, {});
 };
@@ -61,6 +65,7 @@ export default {
   login,
   register,
   getUsers,
+  getUserById,
   updateUserActive,
   updateUserPayment,
   checkType,
