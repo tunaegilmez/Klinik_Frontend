@@ -26,7 +26,7 @@
   {#if currentUser}
     <div class="flex items-center">
       <div>
-        <h1 class="text-xl font-bold">{currentUser.fullName}</h1>
+        <h1 class="text-xl font-bold">{currentUser?.fullName}</h1>
       </div>
       <div class="ml-10 bg-yellow-400 p-2">
         {currentUser.isPaid ? "Ödeme Yapıldı" : "Ödeme Yapılmadı"}
@@ -45,7 +45,7 @@
         <div class="mt-10">
           <h1 class="text-lg">Paket Bilgileri</h1>
           <p class="text-base">
-            Paket türü : {paketTur ? paketTur : "Şuanda bir paket yok"}
+            Paket türü : {currentUser?.packageType} Seans
           </p>
         </div>
       </Card>

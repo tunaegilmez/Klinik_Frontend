@@ -2,6 +2,11 @@
   import RestService from "../../services/rest";
   import { onMount } from "svelte";
   import { navigate } from "svelte-navigator";
+  // @ts-ignore
+  import AlertPackageType from "$components/AlertPackageType.svelte";
+  // @ts-ignore
+  import { modal } from "$services/store";
+  import { bind } from "svelte-simple-modal";
 
   const checkType = async () => {
     try {
@@ -12,13 +17,29 @@
     }
   };
 
+  const packageTypeApprove = userId => {
+    modal.set(
+      bind(AlertPackageType, {
+        message: "Lütfen Paket Türü Seçin",
+        answer: (_answer, _selectedPackageType) => {
+          console.log("Answer", _answer);
+          if (_answer) {
+            selectedPackageType = _selectedPackageType;
+            updatePackageType(userId);
+          }
+          modal.set(null);
+        },
+      })
+    );
+  };
+
   let users;
   let limit = 5;
   let skip = 0;
   let totalDataCount = 0;
   let currentPage = 1;
   let totalPages = 0;
-  let currentPackageType = "12"; // Test variable
+  let selectedPackageType;
 
   const getUsers = async () => {
     try {
@@ -63,7 +84,7 @@
     try {
       let packageTypeResponse = await RestService.updatePackageType(
         userId,
-        currentPackageType
+        selectedPackageType
       );
 
       if (packageTypeResponse["status"]) {
@@ -173,7 +194,7 @@
                         >
                           {user.packageType == "0"
                             ? "Paket Bulunmuyor"
-                            : user.packageType + " Haftalık"}
+                            : user.packageType + " Seans"}
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
@@ -192,7 +213,7 @@
                           </button>
                           <button
                             class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            on:click={() => updatePackageType(user?._id)}
+                            on:click={() => packageTypeApprove(user?._id)}
                           >
                             Paket Seç
                           </button>
